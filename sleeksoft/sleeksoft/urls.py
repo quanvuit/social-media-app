@@ -32,10 +32,7 @@ admin.site.index_title = 'Site Social Media'
 admin.site.site_title = 'Social Media site admin' 
 
 router = DefaultRouter()
-# router.register(r'snippets', views.MemberViewSet)
 router.register(r'update-information-user', views.MemberViewSet)
-# router.register(r'create-post', views.PostViewSet)
-# router.register(r'create-list-image', views.Image_Post_ListViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -51,12 +48,11 @@ urlpatterns = [
     path('delete-follow',views.Delete_Follow_Member),
     path('list-user-un-follow',views.List_Un_Follow_Member),
     path('create-post', views.PostViewSet.as_view()),
-    # path('create-post', views.PostViewSet),
     path('delete-post', views.Delete_Post),
     path('create-list-image', views.Image_Post_ListViewSet.as_view()),
     path('list-post-user',views.List_Post_user),
     path('list-post',views.List_Post),
-    path('search-friend', views.search_friend.as_view()),
+    path('search-friend', views.search_friend.as_view()), 
     path('like-post',views.Like_Post),
     path('delete-like-post',views.Remove_Like_Post),
     path('add-comment',views.add_comments),

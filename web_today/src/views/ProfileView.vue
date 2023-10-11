@@ -42,8 +42,8 @@
                     </label>
                 </div>
                 <div class="flex flex-col gap-2">
-                    <div class="flex gap-2 items-center"><font-awesome-icon icon="fa-solid fa-house-chimney" class="text-[18px]" /><input v-model="counter.Edit_Profile.Address" class="font-medium flex items-center outline-none bg-gray-100 px-2 py-1 rounded" /></div>
-                    <div class="flex gap-2 items-center ml-1"><font-awesome-icon icon="fa-solid fa-cake-candles" class="text-[18px]" /><input v-model="counter.Edit_Profile.Date_of_birth" class="font-medium flex items-center outline-none bg-gray-100 px-2 py-1 rounded" /></div>
+                    <div class="flex gap-2 items-center"><font-awesome-icon icon="fa-solid fa-house-chimney" class="text-[18px]" /><input v-model="counter.Edit_Profile.Address" class="font-medium flex items-center outline-none bg-gray-100 px-2 py-1 rounded" style="width: 250px;"/></div>
+                    <div class="flex gap-2 items-center ml-1"><font-awesome-icon icon="fa-solid fa-cake-candles" class="text-[18px]" /><input v-model="counter.Edit_Profile.Date_of_birth" class="font-medium flex items-center outline-none bg-gray-100 px-2 py-1 rounded" style="width: 250px;"/></div>
                 </div>
                 <button v-on:click=" Update_Member_path(); counter.Edit_Profile.so=1;" class="flex items-center justify-center gap-1 font-semibold w-[90px] py-1 rounded bg-sky-500"><h1 class="">Update</h1></button>
             </div>

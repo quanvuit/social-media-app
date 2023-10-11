@@ -72,7 +72,7 @@ export const useCounterStore = defineStore('counter', {
       }
       catch (error) {
         this.Error_Lg.so = 2;
-        this.Error_Lg.thong_bao = error.response.data['Error message English'];
+        this.Error_Lg.thong_bao = error.response.data['Error'];
       }
 
     },
@@ -116,7 +116,7 @@ export const useCounterStore = defineStore('counter', {
       catch (error) {
         this.Error_Rg.so = 2;
         this.Rg_TC = 1;
-        this.Error_Rg.thong_bao = error.response.data['Error message English'];
+        this.Error_Rg.thong_bao = error.response.data['Error'];
       }
     },
     async Information_Member() {

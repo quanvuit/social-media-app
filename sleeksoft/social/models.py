@@ -36,9 +36,6 @@ class Follow(models.Model):
 	def __str__(self):	
 		return str(self.id)
 
-	# def get_Followed_account(self):
-	# 	return [Followed_account.username for Followed_account in instance.Followed_account.all()]
-
 class Post(models.Model):
 	class Meta:
 		ordering = ["-id"]
