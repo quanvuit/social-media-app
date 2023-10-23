@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 
 from social import views
-from rest_framework.routers import DefaultRouter,SimpleRouter
+from rest_framework.routers import DefaultRouter
 from django.urls import path,include
 from django.conf.urls.static import static
 from django.conf import settings
@@ -27,8 +27,8 @@ from django.urls import re_path as url
 
 from knox import views as knox_views
 
-admin.site.site_header = 'Social Media'                    
-admin.site.index_title = 'Site Social Media'                 
+admin.site.site_header = 'Social Media'
+admin.site.index_title = 'Site Social Media'
 admin.site.site_title = 'Social Media site admin' 
 
 router = DefaultRouter()
