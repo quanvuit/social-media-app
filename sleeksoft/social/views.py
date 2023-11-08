@@ -1,3 +1,4 @@
+import re
 from .models import *
 from .serializers import *
 from django.utils import timezone
@@ -15,43 +16,38 @@ from knox.settings import CONSTANTS
 
 @api_view(['POST'])
 def login(request):
-    try:
-        username = request.data['username']
-        password = request.data['password']
+    username = request.data['username']
+    password = request.data['password']
 
-        if username != None and password != None:
-            try:
-                serializer = AuthTokenSerializer(data=request.data)
-                serializer.is_valid(raise_exception=True)
-                user = serializer.validated_data['user']
-                __, token = AuthToken.objects.create(user)
+    if username and password:
+        try:
+            serializer = AuthTokenSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            user = serializer.validated_data['user']
+            __, token = AuthToken.objects.create(user)
 
-                user.last_login = timezone.now()
-                user.save(update_fields=['last_login'])
+            user.last_login = timezone.now()
+            user.save(update_fields=['last_login'])
 
-                message = {
-                    'Login information': 'Logged in successfully!',
-                    'id': user.id,
-                    'email': user.email,
-                    'username': user.username,
-                    'token': token
-                }
-                return Response(message, status=status.HTTP_200_OK)
-            except:
-                message = {
-                    'Error': 'Login information is incorrect!'
-                }
-                return Response(message, status=status.HTTP_400_BAD_REQUEST)
-        else:
             message = {
-                'Error': 'Login information cannot be blank!'
+                'Login information': 'Logged in successfully!',
+                'id': user.id,
+                'email': user.email,
+                'username': user.username,
+                'token': token
+            }
+            return Response(message, status=status.HTTP_200_OK)
+        except:
+            message = {
+                'Error': 'Login information is incorrect!'
             }
             return Response(message, status=status.HTTP_400_BAD_REQUEST)
-    except:
+    else:
         message = {
-            'Error': 'Login information is incorrect!'
+            'Error': 'Login information cannot be blank!'
         }
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 @api_view(['POST'])
@@ -84,82 +80,121 @@ def keep_login(request):
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
+# @api_view(['POST'])
+# def create_user(request):
+    # email = request.data['email']
+    # dk_email_1 = email.find("@")
+    # dk_email_2 = email.find(".")
+
+    # if dk_email_1 > 0 and dk_email_2 > 0:
+    #     username = request.data['username']
+    #     password = request.data['password']
+    #     confirm_password = request.data['confirm_password']
+
+    #     data_user_email = User.objects.filter(email=email)
+    #     data_user_email_serializer = UserSerializer(data_user_email, many=True)
+
+    #     data_user_username = User.objects.filter(username=username)
+    #     data_user_username_serializer = UserSerializer(
+    #                                             data_user_username, many=True)
+
+    #     if email and username and password:
+
+    #         if (email.count(' ') == 0 and
+    #                 username.count(' ') == 0 and
+    #                 password.count(' ') == 0):
+
+    #             if data_user_username_serializer.data == []:
+
+    #                 if password == confirm_password:
+    #                     if len(data_user_email_serializer.data) < 2:
+    #                         User.objects.create(email=email,
+    #                                             username=username,
+    #                                             password=password,
+    #                                             is_active=True
+    #                                             )
+    #                         data_user = User.objects.get(email=email,
+    #                                                      username=username,
+    #                                                      is_active=True
+    #                                                      )
+    #                         pw = data_user.password
+    #                         data_user.set_password(pw)
+    #                         data_user.save()
+
+    #                         Member.objects.create(user=data_user)
+    #                         message = {
+    #                             'Create account ': 'Account successfully created!'
+    #                         }
+    #                         return Response(message, status=status.HTTP_200_OK)
+    #                     else:
+    #                         message = {
+    #                             'Error': 'Your email has a maximum of 2 accounts!'
+    #                         }
+    #                         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    #                 else:
+    #                     message = {
+    #                         'Error': 'Reconfirm incorrect password!'
+    #                     }
+    #                     return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    #             else:
+    #                 message = {
+    #                     'Error': 'Username already exists!'
+    #                 }
+    #                 return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    #         else:
+    #             message = {
+    #                 'Error': 'Must be a single string of characters!'
+    #             }
+    #             return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         message = {
+    #             'Error': 'Registration information cannot be left blank!'
+    #         }
+    #         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+    # else:
+    #     message = {
+    #         'Error': 'Invalid email registration!'
+    #     }
+    #     return Response(message, status=status.HTTP_400_BAD_REQUEST)
 @api_view(['POST'])
 def create_user(request):
-    email = request.data['email']
-    dk_email_1 = email.find("@")
-    dk_email_2 = email.find(".")
+    email = request.data.get('email')
+    username = request.data.get('username')
+    password = request.data.get('password')
+    confirm_password = request.data.get('confirm_password')
 
-    if dk_email_1 > 0 and dk_email_2 > 0:
-        username = request.data['username']
-        password = request.data['password']
-        confirm_password = request.data['confirm_password']
-
-        data_user_email = User.objects.filter(email=email)
-        data_user_email_serializer = UserSerializer(data_user_email, many=True)
-
-        data_user_username = User.objects.filter(username=username)
-        data_user_username_serializer = UserSerializer(
-            data_user_username, many=True)
-
-        if email != None and username != None and password != None:
-
-            if (email.count(' ') == 0 and
-                    username.count(' ') == 0 and
-                    password.count(' ') == 0):
-
-                if data_user_username_serializer.data == []:
-
-                    if password == confirm_password:
-                        if len(data_user_email_serializer.data) < 2:
-                            User.objects.create(email=email,
-                                                username=username,
-                                                password=password,
-                                                is_active=True
-                                                )
-                            data_user = User.objects.get(email=email,
-                                                         username=username,
-                                                         is_active=True
-                                                         )
-                            pw = data_user.password
-                            data_user.set_password(pw)
-                            data_user.save()
-
-                            Member.objects.create(user=data_user)
-                            message = {
-                                'Create account ': 'Account successfully created!'
-                            }
-                            return Response(message, status=status.HTTP_200_OK)
-                        else:
-                            message = {
-                                'Error': 'Your email has a maximum of 2 accounts!'
-                            }
-                            return Response(message, status=status.HTTP_400_BAD_REQUEST)
-                    else:
-                        message = {
-                            'Error': 'Reconfirm incorrect password!'
-                        }
-                        return Response(message, status=status.HTTP_400_BAD_REQUEST)
-                else:
-                    message = {
-                        'Error': 'Username already exists!'
-                    }
-                    return Response(message, status=status.HTTP_400_BAD_REQUEST)
-            else:
-                message = {
-                    'Error': 'Must be a single string of characters!'
-                }
-                return Response(message, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            message = {
-                'Error': 'Registration information cannot be left blank!'
-            }
-            return Response(message, status=status.HTTP_400_BAD_REQUEST)
-    else:
-        message = {
-            'Error': 'Invalid email registration!'
-        }
+    if not email or not username or not password or not confirm_password:
+        message = {'Error': 'Registration information cannot be left blank!'}
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+    if ' ' in email or ' ' in username or ' ' in password:
+        message = {'Error': 'Must be a single string of characters!'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+    if not bool(re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', email)):
+        message = {'Error': 'Invalid email registration!'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+    if password != confirm_password:
+        message = {'Error': 'Passwords do not match!'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+    if User.objects.filter(username=username).exists():
+        message = {'Error': 'Username already exists!'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+    if User.objects.filter(email=email).exists():
+        message = {'Error': 'Email already exists!'}
+        return Response(message, status=status.HTTP_400_BAD_REQUEST)
+
+    new_user = User(email=email, username=username, is_active=True)
+    new_user.set_password(password)
+    new_user.save()
+
+    Member.objects.create(user=new_user)
+    
+    message = {'Create account': 'Account successfully created!'}
+    return Response(message, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])

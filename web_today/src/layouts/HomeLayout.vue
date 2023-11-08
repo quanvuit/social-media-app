@@ -6,7 +6,11 @@
       <div class="w-[680px] "></div>
       <foo-ter />
       <!-- ui login and sigup -->
-      <div v-if="counter.Table_Lg_Rg==1" class="absolute z-30 flex flex-col inset-0 bg-gray-200 justify-center items-center ">
+      <div v-if="counter.Table_Lg_Rg==1"
+      style="background-image: url('https://haycafe.vn/wp-content/uploads/2022/03/Anh-chill-canh-dep-1-800x450.jpg');
+            background-size: cover; /* Cân đối kích thước hình nền với kích thước phần tử */
+            background-attachment: fixed; /* Giữ hình nền cố định khi cuộn */" 
+      class="absolute z-30 flex flex-col inset-0 bg-gray-200 justify-center items-center ">
         <div v-if="counter.Form_Lg_R==true" class="flex flex-col justify-center items-center gap-2">
           <h1 class=" text-[25px] text-gray-700 font-semibold mb-3">Log in</h1>
           <input placeholder="Username" v-model="counter.Lg.username" class="px-3 rounded w-[480px] h-[48px] drop-shadow-md"/>
