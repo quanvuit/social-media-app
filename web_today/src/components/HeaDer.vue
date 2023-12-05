@@ -31,26 +31,7 @@ export default {
         const counter = useCounterStore();
         return { counter }
     },
-    mounted: function () {
-        // this.counter.List_un_follow();
-    },
-    // destroyed () {
-    // document.body.classList.remove('overflow-hidden')
-    // },
-    methods: {
-        
-    }
+    mounted: function () {},
+    methods: {}
 }
 </script>
-
-<!-- <style v-if="counter.Open_Scroll==2">
-  body {
-   overflow: default;
-  }
-</style> -->
-
-<!-- <style v-if="true">
-  body {
-   overflow: hidden;
-  }
-</style> -->

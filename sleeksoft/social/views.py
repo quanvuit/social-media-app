@@ -49,7 +49,6 @@ def login(request):
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
-
 @api_view(['POST'])
 @permission_classes((IsAuthenticated,))
 def keep_login(request):
@@ -80,82 +79,6 @@ def keep_login(request):
         return Response(message, status=status.HTTP_400_BAD_REQUEST)
 
 
-# @api_view(['POST'])
-# def create_user(request):
-    # email = request.data['email']
-    # dk_email_1 = email.find("@")
-    # dk_email_2 = email.find(".")
-
-    # if dk_email_1 > 0 and dk_email_2 > 0:
-    #     username = request.data['username']
-    #     password = request.data['password']
-    #     confirm_password = request.data['confirm_password']
-
-    #     data_user_email = User.objects.filter(email=email)
-    #     data_user_email_serializer = UserSerializer(data_user_email, many=True)
-
-    #     data_user_username = User.objects.filter(username=username)
-    #     data_user_username_serializer = UserSerializer(
-    #                                             data_user_username, many=True)
-
-    #     if email and username and password:
-
-    #         if (email.count(' ') == 0 and
-    #                 username.count(' ') == 0 and
-    #                 password.count(' ') == 0):
-
-    #             if data_user_username_serializer.data == []:
-
-    #                 if password == confirm_password:
-    #                     if len(data_user_email_serializer.data) < 2:
-    #                         User.objects.create(email=email,
-    #                                             username=username,
-    #                                             password=password,
-    #                                             is_active=True
-    #                                             )
-    #                         data_user = User.objects.get(email=email,
-    #                                                      username=username,
-    #                                                      is_active=True
-    #                                                      )
-    #                         pw = data_user.password
-    #                         data_user.set_password(pw)
-    #                         data_user.save()
-
-    #                         Member.objects.create(user=data_user)
-    #                         message = {
-    #                             'Create account ': 'Account successfully created!'
-    #                         }
-    #                         return Response(message, status=status.HTTP_200_OK)
-    #                     else:
-    #                         message = {
-    #                             'Error': 'Your email has a maximum of 2 accounts!'
-    #                         }
-    #                         return Response(message, status=status.HTTP_400_BAD_REQUEST)
-    #                 else:
-    #                     message = {
-    #                         'Error': 'Reconfirm incorrect password!'
-    #                     }
-    #                     return Response(message, status=status.HTTP_400_BAD_REQUEST)
-    #             else:
-    #                 message = {
-    #                     'Error': 'Username already exists!'
-    #                 }
-    #                 return Response(message, status=status.HTTP_400_BAD_REQUEST)
-    #         else:
-    #             message = {
-    #                 'Error': 'Must be a single string of characters!'
-    #             }
-    #             return Response(message, status=status.HTTP_400_BAD_REQUEST)
-    #     else:
-    #         message = {
-    #             'Error': 'Registration information cannot be left blank!'
-    #         }
-    #         return Response(message, status=status.HTTP_400_BAD_REQUEST)
-    # else:
-    #     message = {
-    #         'Error': 'Invalid email registration!'
-    #     }
-    #     return Response(message, status=status.HTTP_400_BAD_REQUEST)
 @api_view(['POST'])
 def create_user(request):
     email = request.data.get('email')
@@ -207,21 +130,6 @@ def Information_Member(request):
 
     message = {
         'Data': data_information_user_Json
-    }
-    return Response(message, status=status.HTTP_200_OK)
-
-
-@api_view(['POST'])
-def Information_Member_Edit_Avatar(request):
-    username_id = request.data['username_id']
-    Avatar = request.data['Avatar']
-    data_user = User.objects.get(pk=username_id, is_active=True)
-    data_information_user = Member.objects.get(user=data_user)
-    data_information_user.Avatar = Avatar
-    data_information_user.save()
-
-    message = {
-        'Update': 'Update Avatar successfully'
     }
     return Response(message, status=status.HTTP_200_OK)
 

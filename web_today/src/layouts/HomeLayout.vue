@@ -7,7 +7,7 @@
       <foo-ter />
       <!-- ui login and sigup -->
       <div v-if="counter.Table_Lg_Rg==1"
-      style="background-image: url('https://haycafe.vn/wp-content/uploads/2022/03/Anh-chill-canh-dep-1-800x450.jpg');
+      style="background-image: url('http://3.bp.blogspot.com/-IzYETuZ48C8/T7MQmHucwCI/AAAAAAAABEQ/jBTkIk7ObKY/s1600/hinh-nen-dep-31.jpg');
             background-size: cover; /* Cân đối kích thước hình nền với kích thước phần tử */
             background-attachment: fixed; /* Giữ hình nền cố định khi cuộn */" 
       class="absolute z-30 flex flex-col inset-0 bg-gray-200 justify-center items-center ">
