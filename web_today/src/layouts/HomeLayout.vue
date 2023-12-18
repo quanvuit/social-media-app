@@ -15,6 +15,7 @@
           <h1 class=" text-[25px] text-gray-700 font-semibold mb-3">Log in</h1>
           <input placeholder="Username" v-model="counter.Lg.username" class="px-3 rounded w-[480px] h-[48px] drop-shadow-md"/>
           <input type="password"  placeholder="Password" v-model="counter.Lg.password" class="px-3 rounded w-[480px] h-[48px] drop-shadow-md"/>
+          <h1 v-if="counter.Error_Lg.so==2" class="text-red-600 font-bold text-[20px]">{{ counter.Error_Lg.thong_bao }}</h1>
           <button v-on:click="counter.dangnhaptaikhoanvataocookie();" class="rounded drop-shadow-md w-[480px] h-[48px] bg-gradient-to-t from-[#f87171] to-[#ec4899] text-[18px] text-white font-semibold">Login</button>
           <h1 v-on:click="counter.Form_Lg_R=!counter.Form_Lg_R" class=" text-[16px] text-gray-600 font-medium mb-3 cursor-pointer">Do not have an account ? Register now</h1>
         </div>

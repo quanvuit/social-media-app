@@ -35,10 +35,10 @@ class Follow(models.Model):
 		verbose_name_plural = "Thông tin các tài khoản theo dõi nhau"
 	Followed_account = models.ManyToManyField(User,
 										   related_name='user_followed',
-										   null=True, blank=True)
+										   blank=True)
 	user = models.ManyToManyField(User,
 							   related_name='user_follow',
-							   null=True, blank=True)
+							   blank=True)
 
 	def __str__(self):	
 		return str(self.id)
@@ -52,7 +52,7 @@ class Post(models.Model):
 	user = models.ForeignKey(User,related_name='user_post',
 						on_delete=models.CASCADE,null=True,blank=True)
 	like = models.ManyToManyField(User, related_name='user_like',
-									null=True, blank=True)
+									blank=True)
 	def __str__(self):	
 		return str(self.id)
 
